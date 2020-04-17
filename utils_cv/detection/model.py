@@ -414,7 +414,7 @@ def ims_eval_detections(
 
 
 # Remove detections which are not of a given label(s)
-def filter_detections(detections, filter_labels):
+def filter_detections(detections, filter_labels, mask = None):
     import copy
     new_detections = []
     for detection in detections:
@@ -424,9 +424,22 @@ def filter_detections(detections, filter_labels):
         new_detection['det_bboxes'] = []
 
         # copy det_bboxes of the selected class(es)
-        for det_bbox in detection['det_bboxes']:
-            if det_bbox.label_name in filter_labels:
-                new_detection['det_bboxes'].append(det_bbox)
+        for bbox in detection['det_bboxes']:
+            remove = False
+
+            if not (bbox.label_name in filter_labels):
+                remove = True
+
+            if mask:
+                try:
+                    #if bbox.right<mask.size[0] and bbox.bottom<mask.size[1]:
+                    if mask[bbox.left, bbox.bottom][0]==0 or mask[bbox.right, bbox.bottom][0]==0:
+                        remove = True
+                except:
+                    remove = True
+
+            if not remove:
+                new_detection['det_bboxes'].append(bbox)
 
         new_detections.append(new_detection)
 

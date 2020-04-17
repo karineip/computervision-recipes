@@ -363,7 +363,7 @@ def plot_detections(
             plot_settings=PlotSettings(
                 rect_color=(0, 255, 0),
                 text_color=(0, 255, 0),
-                rect_th=int(0.5 * rect_th),
+                rect_th=int(4*rect_th),
                 text_size=text_size,
                 keypoint_th=keypoint_th,
             ),
