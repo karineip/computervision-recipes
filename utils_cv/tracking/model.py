@@ -43,7 +43,7 @@ def _get_gpu_str():
 
 def _get_frame(input_video: str, frame_id: int):
     video = cv2.VideoCapture()
-    video.open(input_video)    
+    video.open(input_video)
     video.set(cv2.CAP_PROP_POS_FRAMES, frame_id)
     _, im = video.read()
     im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
@@ -350,7 +350,7 @@ class TrackingLearner(object):
                 print(f"Evaluate seq: {seq}")
                 mot_accumulator = evaluate_mot(data_root, seq, result_path)
                 accumulators.append(mot_accumulator)
-        if run_eval:
+        if not run_eval:
             return None
         else:
             strsummary = mot_summary(accumulators, seqs)
